@@ -1,0 +1,18 @@
+{% load static %}
+
+{% if node.is_leaf_node %}
+  <li {% if node.is_current %}class="current"{% endif %}>
+    <a href="{{ node.url }}">{{ node.title }}</a>
+  </li>
+{% else %}
+  <li {% if node.is_current or node.is_ancestor %}class="current"{% endif %}>
+    <a href="{{ node.url }}">{{ node.title }}</a>
+    {% if not node.is_root_node %}
+      <ul class="submenu">
+        {% recursetree node %}
+          {% include "menu_app/menu_node.html" %}
+        {% endrecursetree %}
+      </ul>
+    {% endif %}
+  </li>
+{% endif %}
